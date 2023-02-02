@@ -1970,7 +1970,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: YOU CAN ENTER PLATFORMS THROUGH THE BOTTOM
+  m_text: GO UP TO THE TOP USING THE PLATFORMS!
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: 834d08addbb5a1948be2b9c3c9929dcc, type: 2}
   m_sharedMaterial: {fileID: 8375044096519547898, guid: 834d08addbb5a1948be2b9c3c9929dcc, type: 2}
@@ -1997,7 +1997,7 @@ MonoBehaviour:
   m_faceColor:
     serializedVersion: 2
     rgba: 4294967295
-  m_fontSize: 2.15
+  m_fontSize: 2.9
   m_fontSizeBase: 36
   m_fontWeight: 400
   m_enableAutoSizing: 1
@@ -6140,6 +6140,10 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 3624210327993905939, guid: 45aad5492f2ebd243a9362f035f620f2, type: 3}
+      propertyPath: m_Volume
+      value: 0.25
+      objectReference: {fileID: 0}
     - target: {fileID: 9180873375817578642, guid: 45aad5492f2ebd243a9362f035f620f2, type: 3}
       propertyPath: v
       value: 
@@ -6188,6 +6192,14 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 9180873375817578645, guid: 45aad5492f2ebd243a9362f035f620f2, type: 3}
+      propertyPath: canMove
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 9180873375817578645, guid: 45aad5492f2ebd243a9362f035f620f2, type: 3}
+      propertyPath: soundEffects.Array.data[0]
+      value: 
+      objectReference: {fileID: 8300000, guid: c6aa5c74ff0422443b023ce7876da415, type: 3}
     - target: {fileID: 9180873375817578648, guid: 45aad5492f2ebd243a9362f035f620f2, type: 3}
       propertyPath: m_Name
       value: Player

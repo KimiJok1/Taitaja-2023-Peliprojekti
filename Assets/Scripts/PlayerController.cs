@@ -7,6 +7,8 @@ public class PlayerController : MonoBehaviour
     // Players properties
     public float speed;
     public float jumpForce;
+
+    public AudioClip[] soundEffects;
     
     // Player controls
     [SerializeField] private bool canMove;
@@ -14,11 +16,12 @@ public class PlayerController : MonoBehaviour
     [SerializeField] private float horizontalInput;
 
     // Player assets
-    [SerializeField] private Rigidbody2D rb;
-    [SerializeField] private SpriteRenderer sprite;
+    [SerializeField] private Rigidbody2D rigidBody;
     [SerializeField] private Animator animator;
+    [SerializeField] private AudioSource audioPlr;
+    [SerializeField] private SpriteRenderer sprite;
     [SerializeField] private AnimationClip death;
-    [SerializeField] private BoxCollider2D plrCollider;
+    [SerializeField] private BoxCollider2D playerCollider;
 
     // Jumping properties
     [SerializeField] private bool doubleJump = true;
@@ -31,10 +34,11 @@ public class PlayerController : MonoBehaviour
     void Start()
     {
         // Get every asset for player
-        rb = GetComponent<Rigidbody2D>();
-        sprite = GetComponent<SpriteRenderer>();
+        rigidBody = GetComponent<Rigidbody2D>();
         animator = GetComponent<Animator>();
-        plrCollider = GetComponent<BoxCollider2D>();
+        audioPlr = GetComponent<AudioSource>();
+        sprite = GetComponent<SpriteRenderer>();
+        playerCollider = GetComponent<BoxCollider2D>();
     }
 
     void Update()
@@ -47,13 +51,16 @@ public class PlayerController : MonoBehaviour
 
         // Change player's horizontal velocity based on input
         float dir = horizontalInput < 0 ? -1 : 1;
-        rb.velocity = new Vector2(Mathf.Abs(horizontalInput) * speed * dir, rb.velocity.y);
+        rigidBody.velocity = new Vector2(Mathf.Abs(horizontalInput) * speed * dir, rigidBody.velocity.y);
 
         // Check if spacebar pressed and player can jump
         if (Input.GetKeyDown(KeyCode.Space) && (isOnGround || doubleJump))
         {
             // Change player's vertical velocity based on input
-            rb.velocity = Vector3.up * jumpForce;
+            rigidBody.velocity = Vector3.up * jumpForce;
+
+            audioPlr.clip = soundEffects[0];
+            audioPlr.Play(0);
 
             // Modify jump properties to make everything work
             if (isOnGround) 
@@ -64,7 +71,7 @@ public class PlayerController : MonoBehaviour
 
         // Set animator properties
         animator.SetBool("isMoving", Mathf.Abs(transform.position.x - oldPosX) > 0.001);
-        animator.SetFloat("yVelocity",rb.velocity.y);
+        animator.SetFloat("yVelocity",rigidBody.velocity.y);
         
         // Check if sprite needs to be flipped
         if (horizontalInput != 0)
@@ -72,7 +79,7 @@ public class PlayerController : MonoBehaviour
 
         // Flip sprite's X if needed
         sprite.flipX = flipSprite;
-        plrCollider.offset = new Vector2(flipSprite ? -0.125f : 0.125f, plrCollider.offset.y);
+        playerCollider.offset = new Vector2(flipSprite ? -0.125f : 0.125f, playerCollider.offset.y);
 
         // Update old position
         oldPosX = transform.position.x;
