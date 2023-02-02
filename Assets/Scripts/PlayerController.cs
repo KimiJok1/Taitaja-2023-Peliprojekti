@@ -22,10 +22,11 @@ public class PlayerController : MonoBehaviour
     [SerializeField] private bool isOnGround = false;
     [SerializeField] private bool doubleJump = true;
     [SerializeField] private bool flipSprite = false;
+    [SerializeField] private float oldPosX = 0;
 
     void Start()
     {
-        // Get player Rigidbody and SpriteRenderer
+        // Get every asset for player
         rb = GetComponent<Rigidbody2D>();
         sprite = GetComponent<SpriteRenderer>();
         animator = GetComponent<Animator>();
@@ -55,7 +56,8 @@ public class PlayerController : MonoBehaviour
                 doubleJump = false;
         }
 
-        animator.SetBool("isMoving", rb.velocity.x != 0);
+        // Set animator properties
+        animator.SetBool("isMoving", Mathf.Abs(transform.position.x - oldPosX) > 0.001);
         animator.SetFloat("yVelocity",rb.velocity.y);
         
         // Check if sprite needs to be flipped
@@ -65,6 +67,8 @@ public class PlayerController : MonoBehaviour
         // Flip sprite's X if needed
         sprite.flipX = flipSprite;
         plrCollider.offset = new Vector2(flipSprite ? -0.125f : 0.125f, plrCollider.offset.y);
+
+        oldPosX = transform.position.x;
     }
 
     private void OnCollisionEnter2D(Collision2D collision)
