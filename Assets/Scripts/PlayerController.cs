@@ -39,6 +39,9 @@ public class PlayerController : MonoBehaviour
         audioPlr = GetComponent<AudioSource>();
         sprite = GetComponent<SpriteRenderer>();
         playerCollider = GetComponent<BoxCollider2D>();
+
+        audioPlr.clip = soundEffects[3];
+        audioPlr.Play(0);
     }
 
     void Update()
