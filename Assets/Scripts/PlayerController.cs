@@ -9,6 +9,7 @@ public class PlayerController : MonoBehaviour
     public float jumpForce;
     
     // Player controls
+    [SerializeField] private bool canMove;
     [SerializeField] private float verticalInput;
     [SerializeField] private float horizontalInput;
 
@@ -19,8 +20,10 @@ public class PlayerController : MonoBehaviour
     [SerializeField] private BoxCollider2D plrCollider;
 
     // Jumping properties
-    [SerializeField] private bool isOnGround = false;
     [SerializeField] private bool doubleJump = true;
+    [SerializeField] private bool isOnGround = false;
+
+    // Sprite properties
     [SerializeField] private bool flipSprite = false;
     [SerializeField] private float oldPosX = 0;
 
@@ -38,6 +41,8 @@ public class PlayerController : MonoBehaviour
         // Get players input
         horizontalInput = Input.GetAxisRaw("Horizontal");
         verticalInput = Input.GetAxis("Vertical");
+
+        if (!canMove) return;
 
         // Change player's horizontal velocity based on input
         float dir = horizontalInput < 0 ? -1 : 1;
@@ -68,6 +73,7 @@ public class PlayerController : MonoBehaviour
         sprite.flipX = flipSprite;
         plrCollider.offset = new Vector2(flipSprite ? -0.125f : 0.125f, plrCollider.offset.y);
 
+        // Update old position
         oldPosX = transform.position.x;
     }
 
@@ -90,6 +96,11 @@ public class PlayerController : MonoBehaviour
                 isOnGround = checkDir;
                 doubleJump = checkDir;
             }
+        }
+
+        if (collision.gameObject.CompareTag("Spikes"))
+        {
+            canMove = false;
         }
     }
 
