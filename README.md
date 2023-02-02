@@ -4,7 +4,8 @@
 The game uses the theme with the light system. 
 You can barely see anything when you are not using the light, and you have limited usage on it, so don't waste it all!
 
-The game is a platformer, built in ~
+The game is a platformer, built in ~7 hours. 
+Only a few of the actual assets were made by us, as we aren't really artists / musicians. 
 
 Made by: Kimi Jokelainen and Matias Jääskö.
 
