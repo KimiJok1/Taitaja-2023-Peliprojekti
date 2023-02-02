@@ -381,6 +381,7 @@ GameObject:
   m_Component:
   - component: {fileID: 1493311420}
   - component: {fileID: 1493311419}
+  - component: {fileID: 1493311422}
   - component: {fileID: 1493311421}
   - component: {fileID: 1493311418}
   - component: {fileID: 1493311417}
@@ -536,6 +537,26 @@ MonoBehaviour:
   onValue: 0.3
   v: {fileID: 7185175}
   vg: {fileID: 0}
+--- !u!95 &1493311422
+Animator:
+  serializedVersion: 4
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1493311415}
+  m_Enabled: 1
+  m_Avatar: {fileID: 0}
+  m_Controller: {fileID: 9100000, guid: 903e1b6fad3a48344804ec5134a65217, type: 2}
+  m_CullingMode: 0
+  m_UpdateMode: 0
+  m_ApplyRootMotion: 0
+  m_LinearVelocityBlending: 0
+  m_StabilizeFeet: 0
+  m_WarningMessage: 
+  m_HasTransformHierarchy: 1
+  m_AllowConstantClipSamplingOptimization: 1
+  m_KeepAnimatorControllerStateOnDisable: 0
 --- !u!1 &1719180630
 GameObject:
   m_ObjectHideFlags: 3
