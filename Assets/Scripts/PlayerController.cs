@@ -4,58 +4,65 @@ using UnityEngine;
 
 public class PlayerController : MonoBehaviour
 {
+    // Players properties
     public float speed;
     public float jumpForce;
     
+    // Player controls
     private float verticalInput;
     private float horizontalInput;
 
+    // Player assets
     private Rigidbody2D rb;
-    private bool isOnGround = false;
+    private SpriteRenderer sprite;
 
+    // Jumping properties
+    private bool isOnGround = false;
     private bool doubleJump = true;
 
     void Start()
     {
+        // Get player Rigidbody and SpriteRenderer
         rb = GetComponent<Rigidbody2D>();
+        sprite = GetComponent<SpriteRenderer>();
     }
 
     void Update()
     {
+        // Get players input
         horizontalInput = Input.GetAxis("Horizontal");
         verticalInput = Input.GetAxis("Vertical");
 
+        // Change player's horizontal velocity based on input
         rb.velocity = new Vector2(horizontalInput * speed, rb.velocity.y);
 
+        // Check if spacebar pressed and player can jump
         if (Input.GetKeyDown(KeyCode.Space) && (isOnGround || doubleJump))
         {
+            // Change player's vertical velocity based on input
             rb.velocity = Vector3.up * jumpForce;
+
+            // Modify jump properties to make everything work
             if (isOnGround) 
                 isOnGround = false;
             else
                 doubleJump = false;
         }
+
+        // Flip sprite's X if needed
+        sprite.flipX = horizontalInput < 0;
     }
 
-    private bool checkDir = false;
     private void OnCollisionEnter2D(Collision2D collision)
     {
+        // Check if player collides with the level or an enemy
         if (collision.gameObject.CompareTag("Ground") || collision.gameObject.CompareTag("Enemy"))
         {
-            checkDir = true;
-            
-            /*ContactPoint2D[] allPoints = new ContactPoint2D[collision.contactCount];
-            collision.GetContacts(allPoints);
+            // TODO: add more checks to allow wall jumping
 
-            foreach (var i in allPoints)
-                if (i.point.y > transform.position.y) 
-                    checkDir = false;*/
-
-            if (checkDir)
-            {
-                isOnGround = checkDir;
-                doubleJump = checkDir;
-            }
+            // Enable jumping again
+            isOnGround = true;
+            doubleJump = true;
         }
     }
 }
