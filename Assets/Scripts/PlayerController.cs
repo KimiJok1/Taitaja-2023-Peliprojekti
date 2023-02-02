@@ -20,6 +20,7 @@ public class PlayerController : MonoBehaviour
     [SerializeField] private Animator animator;
     [SerializeField] private AudioSource audioPlr;
     [SerializeField] private SpriteRenderer sprite;
+    [SerializeField] private AnimationClip death;
     [SerializeField] private BoxCollider2D playerCollider;
 
     // Jumping properties
@@ -82,6 +83,9 @@ public class PlayerController : MonoBehaviour
 
         // Update old position
         oldPosX = transform.position.x;
+        if (Input.GetKeyDown("f")){
+            StartCoroutine("Die");
+        }
     }
 
     private void OnCollisionEnter2D(Collision2D collision)
@@ -140,5 +144,11 @@ public class PlayerController : MonoBehaviour
                 doubleJump = checkDir;
             }
         }
+
+    IEnumerator Die(){
+        animator.SetTrigger("Die");
+        yield return new WaitForSeconds(death.length);
+
+    }
     }
 }
