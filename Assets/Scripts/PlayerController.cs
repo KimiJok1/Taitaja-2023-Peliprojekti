@@ -31,6 +31,8 @@ public class PlayerController : MonoBehaviour
     [SerializeField] private bool flipSprite = false;
     [SerializeField] private float oldPosX = 0;
 
+    [SerializeField] private Vector2 startPos;
+
     void Start()
     {
         // Get every asset for player
@@ -39,6 +41,8 @@ public class PlayerController : MonoBehaviour
         audioPlr = GetComponent<AudioSource>();
         sprite = GetComponent<SpriteRenderer>();
         playerCollider = GetComponent<BoxCollider2D>();
+
+        startPos = rigidBody.position;
 
         audioPlr.clip = soundEffects[3];
         audioPlr.Play(0);
@@ -50,7 +54,11 @@ public class PlayerController : MonoBehaviour
         horizontalInput = Input.GetAxisRaw("Horizontal");
         verticalInput = Input.GetAxis("Vertical");
 
-        if (!canMove) return;
+        if (!canMove)
+        {
+            horizontalInput = 0f;
+            verticalInput = 0f;
+        }
 
         // Change player's horizontal velocity based on input
         float dir = horizontalInput < 0 ? -1 : 1;
@@ -86,6 +94,7 @@ public class PlayerController : MonoBehaviour
 
         // Update old position
         oldPosX = transform.position.x;
+
         if (Input.GetKeyDown("f")){
             StartCoroutine("Die");
         }
@@ -119,15 +128,11 @@ public class PlayerController : MonoBehaviour
             collision.GetContacts(allPoints);
 
             foreach (var i in allPoints)
-                if (i.point.y > transform.position.y) 
+                if (i.point.y < transform.position.y) 
                     wasHit = true;
 
             if (wasHit)
-            {
-                canMove = false;
-                rigidBody.velocity = new Vector2();
                 StartCoroutine("Die");
-            }
         }
     }
 
@@ -154,6 +159,16 @@ public class PlayerController : MonoBehaviour
     IEnumerator Die()
     {
         animator.SetTrigger("Die");
+        rigidBody.velocity = new Vector2(0f,0f);
+        canMove = false;
         yield return new WaitForSeconds(death.length);
+        //if(eihelaa){
+
+        //}
+        //else{
+            rigidBody.position = startPos;
+            canMove = true;
+        //}
+        
     }
 }
