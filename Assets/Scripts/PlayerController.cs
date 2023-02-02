@@ -16,12 +16,13 @@ public class PlayerController : MonoBehaviour
     [SerializeField] private Rigidbody2D rb;
     [SerializeField] private SpriteRenderer sprite;
     [SerializeField] private Animator animator;
-    [SerializeField] private CapsuleCollider2D collider;
+    [SerializeField] private BoxCollider2D collider;
 
     // Jumping properties
     [SerializeField] private bool isOnGround = false;
     [SerializeField] private bool doubleJump = true;
     [SerializeField] private bool flipSprite = false;
+    [SerializeField] private float oldPosX = 0;
 
     void Start()
     {
@@ -29,7 +30,7 @@ public class PlayerController : MonoBehaviour
         rb = GetComponent<Rigidbody2D>();
         sprite = GetComponent<SpriteRenderer>();
         animator = GetComponent<Animator>();
-        collider = GetComponent<CapsuleCollider2D>();
+        collider = GetComponent<BoxCollider2D>();
     }
 
     void Update()
@@ -54,8 +55,13 @@ public class PlayerController : MonoBehaviour
             else
                 doubleJump = false;
         }
-
-        animator.SetBool("isMoving", rb.velocity.x != 0);
+        if(Mathf.Abs(transform.position.x - oldPosX) > 0.001){
+            animator.SetBool("isMoving", true);
+        }
+        else{
+            animator.SetBool("isMoving", false);
+        }
+        
         animator.SetFloat("yVelocity",rb.velocity.y);
         
         // Flip sprite's X if needed
@@ -64,6 +70,8 @@ public class PlayerController : MonoBehaviour
 
         sprite.flipX = flipSprite;
         collider.offset = new Vector2(flipSprite ? -0.125f : 0.125f, collider.offset.y);
+
+        oldPosX = transform.position.x;
     }
 
     private void OnCollisionEnter2D(Collision2D collision)
