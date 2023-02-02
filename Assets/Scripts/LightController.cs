@@ -9,7 +9,10 @@ public class LightController : MonoBehaviour
 {
     // Default properties
     private float targetValue = 0.7f;
+
     private float startTime = 0f;
+    private float useTime = 3f;
+    private bool canUse = true;
 
     // Time it takes to fade out
     [SerializeField] private float fadeTime = 3f;
@@ -36,8 +39,21 @@ public class LightController : MonoBehaviour
         float prevValue = targetValue;
 
         // Check if key is down and change value accordingly
-        targetValue = Input.GetKey("l") == true ? onValue : offValue;
-        startTime = prevValue != targetValue ? Time.time : startTime;
+        bool keyDown = Input.GetKey("l");
+        useTime = keyDown == true ? useTime - Time.fixedDeltaTime : useTime + Time.fixedDeltaTime;
+        
+        if (useTime <= 0)
+            canUse = false;
+
+        if (canUse)
+        {
+            targetValue = keyDown == true ? onValue : offValue;
+            startTime = prevValue != targetValue ? Time.time : startTime;
+        }
+        else
+        {
+            targetValue = offValue;
+        }
         
         // Calculate time for smoothstep and set the intensity using it
         float t = (Time.time - startTime) / fadeTime;
