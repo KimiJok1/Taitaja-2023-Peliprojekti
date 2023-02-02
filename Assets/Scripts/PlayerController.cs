@@ -100,7 +100,18 @@ public class PlayerController : MonoBehaviour
 
         if (collision.gameObject.CompareTag("Spikes"))
         {
-            canMove = false;
+            bool wasHit = false;
+            ContactPoint2D[] allPoints = new ContactPoint2D[collision.contactCount];
+            collision.GetContacts(allPoints);
+
+            foreach (var i in allPoints)
+                if (i.point.y > transform.position.y) 
+                    wasHit = true;
+
+            if (wasHit)
+            {
+                canMove = false;
+            }
         }
     }
 

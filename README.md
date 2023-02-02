@@ -1,6 +1,13 @@
 # Taitaja 2023-Peliprojekti - ???
 ## Theme: Lights out
 
+The game uses the theme with the light system. 
+You can barely see anything when you are not using the light, and you have limited usage on it, so don't waste it all!
+
+The game is a platformer, built in ~
+
+Made by: Kimi Jokelainen and Matias Jääskö.
+
 Assets used:
 - https://managore.itch.io/m5x7 (Font)
 - https://egordorichev.itch.io/adve (Background + levels)
