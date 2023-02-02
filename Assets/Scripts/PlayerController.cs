@@ -91,7 +91,7 @@ public class PlayerController : MonoBehaviour
     private void OnCollisionEnter2D(Collision2D collision)
     {
         // Check if player collides with the level or an enemy
-        if (collision.gameObject.CompareTag("Ground") || collision.gameObject.CompareTag("Enemy"))
+        if (collision.gameObject.CompareTag("Ground"))
         {
             bool checkDir = true;
             ContactPoint2D[] allPoints = new ContactPoint2D[collision.contactCount];
@@ -128,7 +128,7 @@ public class PlayerController : MonoBehaviour
 
     private void OnCollisionStay2D(Collision2D collision)
     {
-        if (collision.gameObject.CompareTag("Ground") || collision.gameObject.CompareTag("Enemy"))
+        if (collision.gameObject.CompareTag("Ground"))
         {
             bool checkDir = true;
             ContactPoint2D[] allPoints = new ContactPoint2D[collision.contactCount];
