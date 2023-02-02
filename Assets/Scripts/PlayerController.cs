@@ -49,6 +49,11 @@ public class PlayerController : MonoBehaviour
                 doubleJump = false;
         }
 
+        //if (rb.velocity.y < 0)
+            // down animation
+        //else if (rb.velocity.y > 0)
+            // up animation
+
         // Flip sprite's X if needed
         sprite.flipX = horizontalInput < 0;
     }
