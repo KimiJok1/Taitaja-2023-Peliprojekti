@@ -126,7 +126,7 @@ public class PlayerController : MonoBehaviour
             {
                 canMove = false;
                 rigidBody.velocity = new Vector2();
-                animator.SetBool("Die", true);
+                StartCoroutine('Die');
             }
         }
     }
