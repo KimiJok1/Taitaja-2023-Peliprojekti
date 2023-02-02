@@ -433,6 +433,7 @@ MonoBehaviour:
   rb: {fileID: 0}
   sprite: {fileID: 0}
   animator: {fileID: 0}
+  death: {fileID: 7400000, guid: c4ac378dc2acefd4280ea5938bddb1c6, type: 2}
   collider: {fileID: 0}
   isOnGround: 0
   doubleJump: 1

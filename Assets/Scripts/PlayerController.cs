@@ -16,6 +16,7 @@ public class PlayerController : MonoBehaviour
     [SerializeField] private Rigidbody2D rb;
     [SerializeField] private SpriteRenderer sprite;
     [SerializeField] private Animator animator;
+    [SerializeField] private AnimationClip death;
     [SerializeField] private BoxCollider2D collider;
 
     // Jumping properties
@@ -72,6 +73,9 @@ public class PlayerController : MonoBehaviour
         collider.offset = new Vector2(flipSprite ? -0.125f : 0.125f, collider.offset.y);
 
         oldPosX = transform.position.x;
+        if (Input.GetKeyDown("f")){
+            StartCoroutine("Die");
+        }
     }
 
     private void OnCollisionEnter2D(Collision2D collision)
@@ -85,5 +89,11 @@ public class PlayerController : MonoBehaviour
             isOnGround = true;
             doubleJump = true;
         }
+    }
+
+    IEnumerator Die(){
+        animator.SetTrigger("Die");
+        yield return new WaitForSeconds(death.length);
+
     }
 }
