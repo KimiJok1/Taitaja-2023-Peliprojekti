@@ -125,6 +125,8 @@ public class PlayerController : MonoBehaviour
             if (wasHit)
             {
                 canMove = false;
+                rigidBody.velocity = new Vector2();
+                animator.SetBool("Die", true);
             }
         }
     }
