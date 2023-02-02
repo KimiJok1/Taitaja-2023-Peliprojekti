@@ -9,18 +9,18 @@ public class PlayerController : MonoBehaviour
     public float jumpForce;
     
     // Player controls
-    private float verticalInput;
-    private float horizontalInput;
+    [SerializeField] private float verticalInput;
+    [SerializeField] private float horizontalInput;
 
     // Player assets
-    private Rigidbody2D rb;
-    private SpriteRenderer sprite;
-    private Animator animator;
+    [SerializeField] private Rigidbody2D rb;
+    [SerializeField] private SpriteRenderer sprite;
+    [SerializeField] private Animator animator;
 
     // Jumping properties
-    private bool isOnGround = false;
-    private bool doubleJump = true;
-    private bool flipSprite = false;
+    [SerializeField] private bool isOnGround = false;
+    [SerializeField] private bool doubleJump = true;
+    [SerializeField] private bool flipSprite = false;
 
     void Start()
     {
@@ -52,10 +52,10 @@ public class PlayerController : MonoBehaviour
                 doubleJump = false;
         }
 
-        animator.SetBool("isMoving", rb.velocity.x != 0);
+        animator.SetBool("isMoving", Mathf.Round(rb.velocity.x * 100f) / 100f != 0);
         animator.SetFloat("yVelocity",rb.velocity.y);
 
-        
+
         
         // Flip sprite's X if needed
         if (horizontalInput != 0)
