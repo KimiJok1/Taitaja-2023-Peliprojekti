@@ -94,10 +94,6 @@ public class PlayerController : MonoBehaviour
 
         // Update old position
         oldPosX = transform.position.x;
-
-        if (Input.GetKeyDown("f")){
-            StartCoroutine("Die");
-        }
     }
 
     private void OnCollisionEnter2D(Collision2D collision)
