@@ -101,10 +101,12 @@ public class PlayerController : MonoBehaviour
         // Check if player collides with the level or an enemy
         if (collision.gameObject.CompareTag("Ground"))
         {
+            // Get all points 
             bool checkDir = true;
             ContactPoint2D[] allPoints = new ContactPoint2D[collision.contactCount];
             collision.GetContacts(allPoints);
 
+            // Compare the points
             foreach (var i in allPoints)
                 if (i.point.y > transform.position.y) 
                     checkDir = false;
@@ -136,14 +138,17 @@ public class PlayerController : MonoBehaviour
     {
         if (collision.gameObject.CompareTag("Ground"))
         {
+            // Get all points 
             bool checkDir = true;
             ContactPoint2D[] allPoints = new ContactPoint2D[collision.contactCount];
             collision.GetContacts(allPoints);
 
+            // Compare the points
             foreach (var i in allPoints)
                 if (i.point.y > transform.position.y) 
                     checkDir = false;
 
+            // Reset ground & double jump checks
             if (checkDir && !isOnGround && !doubleJump)
             {
                 isOnGround = checkDir;
