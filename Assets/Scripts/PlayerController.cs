@@ -13,6 +13,8 @@ public class PlayerController : MonoBehaviour
     private Rigidbody2D rb;
     private bool isOnGround = false;
 
+    private bool doubleJump = true;
+
     void Start()
     {
         rb = GetComponent<Rigidbody2D>();
@@ -25,10 +27,13 @@ public class PlayerController : MonoBehaviour
 
         rb.velocity = new Vector2(horizontalInput * speed, rb.velocity.y);
 
-        if (Input.GetKeyDown(KeyCode.Space) && isOnGround)
+        if (Input.GetKeyDown(KeyCode.Space) && (isOnGround || doubleJump))
         {
             rb.velocity = Vector3.up * jumpForce;
-            isOnGround = false;
+            if (isOnGround) 
+                isOnGround = false;
+            else
+                doubleJump = false;
         }
     }
 
@@ -38,15 +43,19 @@ public class PlayerController : MonoBehaviour
         if (collision.gameObject.CompareTag("Ground") || collision.gameObject.CompareTag("Enemy"))
         {
             checkDir = true;
-            ContactPoint2D[] allPoints = new ContactPoint2D[collision.contactCount];
+            
+            /*ContactPoint2D[] allPoints = new ContactPoint2D[collision.contactCount];
             collision.GetContacts(allPoints);
 
             foreach (var i in allPoints)
                 if (i.point.y > transform.position.y) 
-                    checkDir = false;
+                    checkDir = false;*/
 
             if (checkDir)
+            {
                 isOnGround = checkDir;
+                doubleJump = checkDir;
+            }
         }
     }
 }
