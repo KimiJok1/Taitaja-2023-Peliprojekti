@@ -15,6 +15,7 @@ public class PlayerController : MonoBehaviour
     // Player assets
     private Rigidbody2D rb;
     private SpriteRenderer sprite;
+    private Animator animator;
 
     // Jumping properties
     private bool isOnGround = false;
@@ -25,6 +26,7 @@ public class PlayerController : MonoBehaviour
         // Get player Rigidbody and SpriteRenderer
         rb = GetComponent<Rigidbody2D>();
         sprite = GetComponent<SpriteRenderer>();
+        animator = GetComponent<Animator>();
     }
 
     void Update()
@@ -35,6 +37,7 @@ public class PlayerController : MonoBehaviour
 
         // Change player's horizontal velocity based on input
         rb.velocity = new Vector2(horizontalInput * speed, rb.velocity.y);
+
 
         // Check if spacebar pressed and player can jump
         if (Input.GetKeyDown(KeyCode.Space) && (isOnGround || doubleJump))
@@ -49,11 +52,9 @@ public class PlayerController : MonoBehaviour
                 doubleJump = false;
         }
 
-        //if (rb.velocity.y < 0)
-            // down animation
-        //else if (rb.velocity.y > 0)
-            // up animation
-
+        animator.SetBool("isMoving", horizontalInput != 0);
+        animator.SetFloat("yVelocity",rb.velocity.y);
+        
         // Flip sprite's X if needed
         sprite.flipX = horizontalInput < 0;
     }
