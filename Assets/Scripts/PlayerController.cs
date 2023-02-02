@@ -20,6 +20,7 @@ public class PlayerController : MonoBehaviour
     // Jumping properties
     private bool isOnGround = false;
     private bool doubleJump = true;
+    private bool flipSprite = false;
 
     void Start()
     {
@@ -38,7 +39,6 @@ public class PlayerController : MonoBehaviour
         // Change player's horizontal velocity based on input
         rb.velocity = new Vector2(horizontalInput * speed, rb.velocity.y);
 
-
         // Check if spacebar pressed and player can jump
         if (Input.GetKeyDown(KeyCode.Space) && (isOnGround || doubleJump))
         {
@@ -52,11 +52,16 @@ public class PlayerController : MonoBehaviour
                 doubleJump = false;
         }
 
-        animator.SetBool("isMoving", horizontalInput != 0);
+        animator.SetBool("isMoving", rb.velocity.x != 0);
         animator.SetFloat("yVelocity",rb.velocity.y);
+
+        
         
         // Flip sprite's X if needed
-        sprite.flipX = horizontalInput < 0;
+        if (horizontalInput != 0)
+            flipSprite = horizontalInput < 0;
+
+        sprite.flipX = flipSprite;
     }
 
     private void OnCollisionEnter2D(Collision2D collision)
