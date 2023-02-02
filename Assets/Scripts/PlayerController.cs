@@ -144,11 +144,11 @@ public class PlayerController : MonoBehaviour
                 doubleJump = checkDir;
             }
         }
+    }
 
-    IEnumerator Die(){
+    IEnumerator Die()
+    {
         animator.SetTrigger("Die");
         yield return new WaitForSeconds(death.length);
-
-    }
     }
 }
