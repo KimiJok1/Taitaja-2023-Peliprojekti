@@ -147,7 +147,7 @@ MonoBehaviour:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 7185174}
-  m_Enabled: 1
+  m_Enabled: 0
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 172515602e62fb746b5d573b38a5fe58, type: 3}
   m_Name: 
@@ -385,7 +385,7 @@ GameObject:
   - component: {fileID: 1493311421}
   - component: {fileID: 1493311418}
   - component: {fileID: 1493311417}
-  - component: {fileID: 1493311416}
+  - component: {fileID: 1493311423}
   m_Layer: 0
   m_Name: Player
   m_TagString: Player
@@ -393,32 +393,6 @@ GameObject:
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
   m_IsActive: 1
---- !u!61 &1493311416
-BoxCollider2D:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1493311415}
-  m_Enabled: 1
-  m_Density: 1
-  m_Material: {fileID: 6200000, guid: cf2ebc7cabb45d144b64002a9ac88f1c, type: 2}
-  m_IsTrigger: 0
-  m_UsedByEffector: 0
-  m_UsedByComposite: 0
-  m_Offset: {x: 0.125, y: 0}
-  m_SpriteTilingProperty:
-    border: {x: 0, y: 0, z: 0, w: 0}
-    pivot: {x: 0.5, y: 0.5}
-    oldSize: {x: 2.6666667, y: 2.6666667}
-    newSize: {x: 1, y: 1}
-    adaptiveTilingThreshold: 0.5
-    drawMode: 0
-    adaptiveTiling: 0
-  m_AutoTiling: 0
-  serializedVersion: 2
-  m_Size: {x: 0.925, y: 1.85}
-  m_EdgeRadius: 0
 --- !u!50 &1493311417
 Rigidbody2D:
   serializedVersion: 4
@@ -454,6 +428,15 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   speed: 7
   jumpForce: 9.5
+  verticalInput: 0
+  horizontalInput: 0
+  rb: {fileID: 0}
+  sprite: {fileID: 0}
+  animator: {fileID: 0}
+  collider: {fileID: 0}
+  isOnGround: 0
+  doubleJump: 1
+  flipSprite: 0
 --- !u!212 &1493311419
 SpriteRenderer:
   m_ObjectHideFlags: 0
@@ -558,6 +541,22 @@ Animator:
   m_HasTransformHierarchy: 1
   m_AllowConstantClipSamplingOptimization: 1
   m_KeepAnimatorControllerStateOnDisable: 0
+--- !u!70 &1493311423
+CapsuleCollider2D:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1493311415}
+  m_Enabled: 1
+  m_Density: 1
+  m_Material: {fileID: 0}
+  m_IsTrigger: 0
+  m_UsedByEffector: 0
+  m_UsedByComposite: 0
+  m_Offset: {x: 0.125, y: -0.31}
+  m_Size: {x: 0.925, y: 1.3}
+  m_Direction: 0
 --- !u!1 &1719180630
 GameObject:
   m_ObjectHideFlags: 3
@@ -26382,7 +26381,7 @@ Tilemap:
     second:
       serializedVersion: 2
       m_TileIndex: 34
-      m_TileSpriteIndex: 28
+      m_TileSpriteIndex: 29
       m_TileMatrixIndex: 0
       m_TileColorIndex: 0
       m_TileObjectToInstantiateIndex: 65535
@@ -49203,10 +49202,10 @@ Tilemap:
     m_Data: {fileID: -933747949, guid: 748e64ddd89b1d743b6c2d6b6308d615, type: 3}
   - m_RefCount: 4
     m_Data: {fileID: -50864563, guid: 748e64ddd89b1d743b6c2d6b6308d615, type: 3}
-  - m_RefCount: 1
-    m_Data: {fileID: -339554233, guid: 748e64ddd89b1d743b6c2d6b6308d615, type: 3}
   - m_RefCount: 0
     m_Data: {fileID: 0}
+  - m_RefCount: 1
+    m_Data: {fileID: -339554233, guid: 748e64ddd89b1d743b6c2d6b6308d615, type: 3}
   - m_RefCount: 57
     m_Data: {fileID: 446716068, guid: 748e64ddd89b1d743b6c2d6b6308d615, type: 3}
   - m_RefCount: 63

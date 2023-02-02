@@ -16,6 +16,7 @@ public class PlayerController : MonoBehaviour
     [SerializeField] private Rigidbody2D rb;
     [SerializeField] private SpriteRenderer sprite;
     [SerializeField] private Animator animator;
+    [SerializeField] private CapsuleCollider2D collider;
 
     // Jumping properties
     [SerializeField] private bool isOnGround = false;
@@ -28,16 +29,18 @@ public class PlayerController : MonoBehaviour
         rb = GetComponent<Rigidbody2D>();
         sprite = GetComponent<SpriteRenderer>();
         animator = GetComponent<Animator>();
+        collider = GetComponent<CapsuleCollider2D>();
     }
 
     void Update()
     {
         // Get players input
-        horizontalInput = Input.GetAxis("Horizontal");
+        horizontalInput = Input.GetAxisRaw("Horizontal");
         verticalInput = Input.GetAxis("Vertical");
 
         // Change player's horizontal velocity based on input
-        rb.velocity = new Vector2(horizontalInput * speed, rb.velocity.y);
+        float dir = horizontalInput < 0 ? -1 : 1;
+        rb.velocity = new Vector2(Mathf.Abs(horizontalInput) * speed * dir, rb.velocity.y);
 
         // Check if spacebar pressed and player can jump
         if (Input.GetKeyDown(KeyCode.Space) && (isOnGround || doubleJump))
@@ -52,16 +55,15 @@ public class PlayerController : MonoBehaviour
                 doubleJump = false;
         }
 
-        animator.SetBool("isMoving", Mathf.Round(rb.velocity.x * 100f) / 100f != 0);
+        animator.SetBool("isMoving", rb.velocity.x != 0);
         animator.SetFloat("yVelocity",rb.velocity.y);
-
-
         
         // Flip sprite's X if needed
         if (horizontalInput != 0)
             flipSprite = horizontalInput < 0;
 
         sprite.flipX = flipSprite;
+        collider.offset = new Vector2(flipSprite ? -0.125f : 0.125f, collider.offset.y);
     }
 
     private void OnCollisionEnter2D(Collision2D collision)
