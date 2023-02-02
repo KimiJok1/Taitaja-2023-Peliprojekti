@@ -76,11 +76,40 @@ public class PlayerController : MonoBehaviour
         // Check if player collides with the level or an enemy
         if (collision.gameObject.CompareTag("Ground") || collision.gameObject.CompareTag("Enemy"))
         {
-            // TODO: add more checks to allow wall jumping
+            bool checkDir = true;
+            ContactPoint2D[] allPoints = new ContactPoint2D[collision.contactCount];
+            collision.GetContacts(allPoints);
+
+            foreach (var i in allPoints)
+                if (i.point.y > transform.position.y) 
+                    checkDir = false;
 
             // Enable jumping again
-            isOnGround = true;
-            doubleJump = true;
+            if (checkDir)
+            {
+                isOnGround = checkDir;
+                doubleJump = checkDir;
+            }
+        }
+    }
+
+    private void OnCollisionStay2D(Collision2D collision)
+    {
+        if (collision.gameObject.CompareTag("Ground") || collision.gameObject.CompareTag("Enemy"))
+        {
+            bool checkDir = true;
+            ContactPoint2D[] allPoints = new ContactPoint2D[collision.contactCount];
+            collision.GetContacts(allPoints);
+
+            foreach (var i in allPoints)
+                if (i.point.y > transform.position.y) 
+                    checkDir = false;
+
+            if (checkDir && !isOnGround && !doubleJump)
+            {
+                isOnGround = checkDir;
+                doubleJump = checkDir;
+            }
         }
     }
 }
