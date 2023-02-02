@@ -159,17 +159,14 @@ public class PlayerController : MonoBehaviour
 
     IEnumerator Die()
     {
+        // Death
         animator.SetTrigger("Die");
         rigidBody.velocity = new Vector2(0f,0f);
         canMove = false;
         yield return new WaitForSeconds(death.length);
-        //if(eihelaa){
 
-        //}
-        //else{
-            rigidBody.position = startPos;
-            canMove = true;
-        //}
-        
+        // Player can move again
+        rigidBody.position = startPos;
+        canMove = true;
     }
 }

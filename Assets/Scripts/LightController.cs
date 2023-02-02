@@ -42,18 +42,25 @@ public class LightController : MonoBehaviour
         bool keyDown = Input.GetKey("l");
         useTime = keyDown == true ? useTime - Time.fixedDeltaTime : useTime + Time.fixedDeltaTime;
         
+        // Can use light
         if (useTime <= 0)
-            canUse = false;
-
-        if (canUse)
         {
-            targetValue = keyDown == true ? onValue : offValue;
-            startTime = prevValue != targetValue ? Time.time : startTime;
+            useTime = 0;
+            canUse = false;
         }
         else
         {
-            targetValue = offValue;
+            if (useTime > 3) useTime = 3;
+            canUse = true;
         }
+
+        // Update light
+        if (canUse)
+            targetValue = keyDown == true ? onValue : offValue;
+        else
+            targetValue = offValue;
+
+        startTime = prevValue != targetValue ? Time.time : startTime;
         
         // Calculate time for smoothstep and set the intensity using it
         float t = (Time.time - startTime) / fadeTime;
