@@ -16,7 +16,7 @@ public class PlayerController : MonoBehaviour
     [SerializeField] private Rigidbody2D rb;
     [SerializeField] private SpriteRenderer sprite;
     [SerializeField] private Animator animator;
-    [SerializeField] private Collider2D collider;
+    [SerializeField] private BoxCollider2D plrCollider;
 
     // Jumping properties
     [SerializeField] private bool isOnGround = false;
@@ -29,7 +29,7 @@ public class PlayerController : MonoBehaviour
         rb = GetComponent<Rigidbody2D>();
         sprite = GetComponent<SpriteRenderer>();
         animator = GetComponent<Animator>();
-        collider = GetComponent<Collider2D>();
+        plrCollider = GetComponent<BoxCollider2D>();
     }
 
     void Update()
@@ -64,7 +64,7 @@ public class PlayerController : MonoBehaviour
 
         // Flip sprite's X if needed
         sprite.flipX = flipSprite;
-        //collider.offset = new Vector2(flipSprite ? -0.125f : 0.125f, collider.offset.y);
+        plrCollider.offset = new Vector2(flipSprite ? -0.125f : 0.125f, plrCollider.offset.y);
     }
 
     private void OnCollisionEnter2D(Collision2D collision)
