@@ -39,6 +39,9 @@ public class PlayerController : MonoBehaviour
         audioPlr = GetComponent<AudioSource>();
         sprite = GetComponent<SpriteRenderer>();
         playerCollider = GetComponent<BoxCollider2D>();
+
+        audioPlr.clip = soundEffects[3];
+        audioPlr.Play(0);
     }
 
     void Update()
@@ -122,6 +125,8 @@ public class PlayerController : MonoBehaviour
             if (wasHit)
             {
                 canMove = false;
+                rigidBody.velocity = new Vector2();
+                animator.SetBool("Die", true);
             }
         }
     }
