@@ -143,4 +143,5 @@ public class PlayerController : MonoBehaviour
         yield return new WaitForSeconds(death.length);
 
     }
+    }
 }
