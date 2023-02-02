@@ -9,6 +9,7 @@ public class PlayerController : MonoBehaviour
     public float jumpForce;
     
     // Player controls
+    [SerializeField] private bool canMove;
     [SerializeField] private float verticalInput;
     [SerializeField] private float horizontalInput;
 
@@ -17,21 +18,23 @@ public class PlayerController : MonoBehaviour
     [SerializeField] private SpriteRenderer sprite;
     [SerializeField] private Animator animator;
     [SerializeField] private AnimationClip death;
-    [SerializeField] private BoxCollider2D collider;
+    [SerializeField] private BoxCollider2D plrCollider;
 
     // Jumping properties
-    [SerializeField] private bool isOnGround = false;
     [SerializeField] private bool doubleJump = true;
+    [SerializeField] private bool isOnGround = false;
+
+    // Sprite properties
     [SerializeField] private bool flipSprite = false;
     [SerializeField] private float oldPosX = 0;
 
     void Start()
     {
-        // Get player Rigidbody and SpriteRenderer
+        // Get every asset for player
         rb = GetComponent<Rigidbody2D>();
         sprite = GetComponent<SpriteRenderer>();
         animator = GetComponent<Animator>();
-        collider = GetComponent<BoxCollider2D>();
+        plrCollider = GetComponent<BoxCollider2D>();
     }
 
     void Update()
@@ -39,6 +42,8 @@ public class PlayerController : MonoBehaviour
         // Get players input
         horizontalInput = Input.GetAxisRaw("Horizontal");
         verticalInput = Input.GetAxis("Vertical");
+
+        if (!canMove) return;
 
         // Change player's horizontal velocity based on input
         float dir = horizontalInput < 0 ? -1 : 1;
@@ -56,22 +61,20 @@ public class PlayerController : MonoBehaviour
             else
                 doubleJump = false;
         }
-        if(Mathf.Abs(transform.position.x - oldPosX) > 0.001){
-            animator.SetBool("isMoving", true);
-        }
-        else{
-            animator.SetBool("isMoving", false);
-        }
-        
+
+        // Set animator properties
+        animator.SetBool("isMoving", Mathf.Abs(transform.position.x - oldPosX) > 0.001);
         animator.SetFloat("yVelocity",rb.velocity.y);
         
-        // Flip sprite's X if needed
+        // Check if sprite needs to be flipped
         if (horizontalInput != 0)
             flipSprite = horizontalInput < 0;
 
+        // Flip sprite's X if needed
         sprite.flipX = flipSprite;
-        collider.offset = new Vector2(flipSprite ? -0.125f : 0.125f, collider.offset.y);
+        plrCollider.offset = new Vector2(flipSprite ? -0.125f : 0.125f, plrCollider.offset.y);
 
+        // Update old position
         oldPosX = transform.position.x;
         if (Input.GetKeyDown("f")){
             StartCoroutine("Die");
@@ -83,13 +86,57 @@ public class PlayerController : MonoBehaviour
         // Check if player collides with the level or an enemy
         if (collision.gameObject.CompareTag("Ground") || collision.gameObject.CompareTag("Enemy"))
         {
-            // TODO: add more checks to allow wall jumping
+            bool checkDir = true;
+            ContactPoint2D[] allPoints = new ContactPoint2D[collision.contactCount];
+            collision.GetContacts(allPoints);
+
+            foreach (var i in allPoints)
+                if (i.point.y > transform.position.y) 
+                    checkDir = false;
 
             // Enable jumping again
-            isOnGround = true;
-            doubleJump = true;
+            if (checkDir)
+            {
+                isOnGround = checkDir;
+                doubleJump = checkDir;
+            }
+        }
+
+        if (collision.gameObject.CompareTag("Spikes"))
+        {
+            bool wasHit = false;
+            ContactPoint2D[] allPoints = new ContactPoint2D[collision.contactCount];
+            collision.GetContacts(allPoints);
+
+            foreach (var i in allPoints)
+                if (i.point.y > transform.position.y) 
+                    wasHit = true;
+
+            if (wasHit)
+            {
+                canMove = false;
+            }
         }
     }
+
+    private void OnCollisionStay2D(Collision2D collision)
+    {
+        if (collision.gameObject.CompareTag("Ground") || collision.gameObject.CompareTag("Enemy"))
+        {
+            bool checkDir = true;
+            ContactPoint2D[] allPoints = new ContactPoint2D[collision.contactCount];
+            collision.GetContacts(allPoints);
+
+            foreach (var i in allPoints)
+                if (i.point.y > transform.position.y) 
+                    checkDir = false;
+
+            if (checkDir && !isOnGround && !doubleJump)
+            {
+                isOnGround = checkDir;
+                doubleJump = checkDir;
+            }
+        }
 
     IEnumerator Die(){
         animator.SetTrigger("Die");
