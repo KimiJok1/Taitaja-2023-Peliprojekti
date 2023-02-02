@@ -43,7 +43,7 @@ public class LightController : MonoBehaviour
         useTime = keyDown == true ? useTime - Time.fixedDeltaTime : useTime + Time.fixedDeltaTime;
         
         // Can use light
-        if (useTime <= 0)
+        if (useTime < 0)
         {
             useTime = 0;
             canUse = false;
